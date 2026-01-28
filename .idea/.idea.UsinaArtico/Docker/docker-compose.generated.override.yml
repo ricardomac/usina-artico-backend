@@ -1,0 +1,21 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  web-api:
+    build:
+      context: "/Users/ricardo/repos/usina-artico/usina-artico-api/UsinaArtico"
+      dockerfile: "src/UsinaArtico.Api/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net10.0/UsinaArtico.Api.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "webapi:dev"
+    ports: []
+    volumes:
+    - "/Users/ricardo/repos/usina-artico/usina-artico-api/UsinaArtico/src/UsinaArtico.Api:/app:rw"
+    - "/Users/ricardo/repos/usina-artico/usina-artico-api/UsinaArtico:/src:rw"
+    - "/Users/ricardo/.nuget/packages:/home/app/.nuget/packages"
+    working_dir: "/app"

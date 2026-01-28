@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="8f92fb77-5289-4983-af8a-727128b304fe" name="ssh-usina-artico">
+        <fileTransfer rootFolder="/home/ubuntu/backend" accessType="SFTP" host="191.96.81.141" port="22" sshConfigId="6e2a03c7-2041-4fda-ad6c-18e9b9df01f3" sshConfig="ubuntu@191.96.81.141:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" isUseRsync="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
