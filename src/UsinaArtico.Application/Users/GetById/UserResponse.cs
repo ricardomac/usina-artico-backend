@@ -9,4 +9,8 @@ public sealed record UserResponse
     public string FirstName { get; init; }
 
     public string LastName { get; init; }
+
+    public List<string> Roles { get; init; } = [];
+
+    public List<string> Permissions { get; init; } = [];
 }

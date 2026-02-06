@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using UsinaArtico.Application.Abstractions.Data;
 using UsinaArtico.Domain.Cidades;
 using UsinaArtico.Domain.Clientes;
@@ -15,9 +17,9 @@ namespace UsinaArtico.Infrastructure.Database;
 public sealed class ApplicationDbContext(
     DbContextOptions<ApplicationDbContext> options,
     IDomainEventsDispatcher domainEventsDispatcher)
-    : DbContext(options), IApplicationDbContext
+    : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options), IApplicationDbContext
 {
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; set; } 
     public DbSet<TodoItem> TodoItems { get; set; }
     public DbSet<Estado> Estados { get; set; }
     public DbSet<Cidade> Cidades { get; set; }
@@ -28,9 +30,12 @@ public sealed class ApplicationDbContext(
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
         modelBuilder.HasDefaultSchema(Schemas.Default);
+
     }
 
 
