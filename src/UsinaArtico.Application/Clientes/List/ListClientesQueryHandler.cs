@@ -20,7 +20,8 @@ internal sealed class ListClientesQueryHandler(IApplicationDbContext context)
         {
             clientesQuery = clientesQuery.Where(p =>
                 p.Nome.Contains(query.SearchTerm) ||
-                ((string)p.Nome).Contains(query.SearchTerm));
+                p.Email.Value.Contains(query.SearchTerm) ||
+                p.CodigoCliente.Contains(query.SearchTerm));
         }
 
         clientesQuery = OrderBy(query, clientesQuery);
@@ -29,10 +30,21 @@ internal sealed class ListClientesQueryHandler(IApplicationDbContext context)
             .Select(c => new ClienteResponse(
                 c.Id,
                 c.Nome,
-                c.Email.Value,
+                c.Email != null ? c.Email.Value : "",
                 c.Telefone,
                 c.Tipo == TipoPessoa.Fisica ? (c.Cpf != null ? c.Cpf.Value : "") : (c.Cnpj != null ? c.Cnpj.Value : ""),
-                c.CodigoCliente));
+                c.CodigoCliente,
+                c.Enderecos.Select(e => new EnderecoResponse(
+                    e.Id,
+                    e.CodigoInstalacao,
+                    e.Logradouro,
+                    (int)e.TipoLigacao,
+                    e.Cep,
+                    e.Numero,
+                    e.Bairro,
+                    e.Cidade.Nome,
+                    e.Cidade.Estado.UF.Value
+                )).ToList()));
 
 
         var clientes = await PagedList<ClienteResponse>.CreateAsync(

@@ -14,7 +14,7 @@ internal sealed class GetById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("clientes/{id}", async (
+        app.MapGet("api/clientes/{id}", async (
             Guid id,
             IQueryHandler<GetClienteByIdQuery, ClienteResponse> handler,
             CancellationToken cancellationToken) =>
@@ -26,8 +26,7 @@ internal sealed class GetById : IEndpoint
             return result.Match(Results.Ok, CustomResults.Problem);
         })
         .WithTags(Tags.Clientes)
-        .RequireAuthorization()
-        .WithSummary("Obtém um cliente pelo ID")
+            .WithSummary("Obtém um cliente pelo ID")
         .WithDescription("Retorna os detalhes de um cliente específico.")
         .Produces<ClienteResponse>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)

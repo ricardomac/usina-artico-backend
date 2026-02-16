@@ -5,7 +5,6 @@ namespace UsinaArtico.Domain.Clientes;
 
 public sealed class Cliente : Entity
 {
-    // Construtor privado para EF Core e Factory Method
     private Cliente() { }
 
     private Cliente(
@@ -33,7 +32,7 @@ public sealed class Cliente : Entity
     public Email Email { get; private set; }
     public string Telefone { get; private set; } = string.Empty;
     public string CodigoCliente { get; private set; } = string.Empty;
-    
+
     public TipoPessoa Tipo { get; private set; }
     public Cpf? Cpf { get; private set; }
     public Cnpj? Cnpj { get; private set; }
@@ -51,7 +50,25 @@ public sealed class Cliente : Entity
         Cpf? cpf,
         Cnpj? cnpj)
     {
-        
+
         return new Cliente(Guid.NewGuid(), nome, email, telefone, codigoCliente, tipo, cpf, cnpj);
+    }
+
+    public void Update(
+        string nome,
+        Email email,
+        string telefone,
+        string codigoCliente,
+        TipoPessoa tipo,
+        Cpf? cpf,
+        Cnpj? cnpj)
+    {
+        Nome = nome;
+        Email = email;
+        Telefone = telefone;
+        CodigoCliente = codigoCliente;
+        Tipo = tipo;
+        Cpf = cpf;
+        Cnpj = cnpj;
     }
 }

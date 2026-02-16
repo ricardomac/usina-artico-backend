@@ -10,16 +10,16 @@ public class CreateClienteTests(IntegrationTestWebAppFactory factory) : BaseInte
     public async Task Create_ShouldCreateCliente_WhenRequestIsValid()
     {
         // Arrange
-        var request = new Create.Request
+        var request = new
         {
             Nome = "Cliente Teste",
             Email = "teste@cliente.com",
             Telefone = "11999999999",
             Documento = "12345678901",
             CodigoCliente = "CLI-001",
-            Tipo = 1 // Fisica
+            Enderecos = new List<object>() // Empty list or populated if needed, Command expects List<CreateEnderecoCommand>
         };
-        
+
         // Act
         var response = await HttpClient.PostAsJsonAsync("api/clientes", request);
 

@@ -274,14 +274,13 @@ namespace UsinaArtico.Infrastructure.Database.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Anexo")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
                         .HasColumnName("anexo");
 
-                    b.Property<DateTime>("DataVencimento")
+                    b.Property<DateTime>("DataInicio")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("data_vencimento");
+                        .HasColumnName("data_inicio");
 
                     b.Property<decimal>("QuantidadeKwh")
                         .HasColumnType("decimal(18,2)")
@@ -349,12 +348,6 @@ namespace UsinaArtico.Infrastructure.Database.Migrations
                     b.Property<int>("TipoLigacao")
                         .HasColumnType("integer")
                         .HasColumnName("tipo_ligacao");
-
-                    b.Property<string>("UnidadeConsumidora")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("unidade_consumidora");
 
                     b.HasKey("Id")
                         .HasName("pk_enderecos");

@@ -6,7 +6,7 @@ using UsinaArtico.SharedKernel;
 
 namespace UsinaArtico.Api.Endpoints.Todos;
 
-internal sealed class Get : IEndpoint
+internal sealed class Get 
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {

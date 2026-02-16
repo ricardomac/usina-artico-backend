@@ -32,6 +32,7 @@ public sealed class ApplicationDbContext(
     {
         base.OnModelCreating(modelBuilder);
 
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
         modelBuilder.HasDefaultSchema(Schemas.Default);

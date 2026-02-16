@@ -6,7 +6,7 @@ using UsinaArtico.SharedKernel;
 
 namespace UsinaArtico.Api.Endpoints.Todos;
 
-internal sealed class Delete : IEndpoint
+internal sealed class Delete 
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {

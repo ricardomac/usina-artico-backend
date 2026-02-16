@@ -15,6 +15,17 @@ builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configu
 
 builder.Services.AddSwaggerGenWithAuth();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+});
+
 builder.Services
     .AddApplication()
     .AddPresentation()
@@ -24,14 +35,18 @@ builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 
 WebApplication app = builder.Build();
 
+app.UseCors("AllowAll");
+
 app.MapEndpoints();
+
+    app.UseSwaggerWithUi();
+
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwaggerWithUi();
 
     app.ApplyMigrations();
-    
+
     using (var scope = app.Services.CreateScope())
     {
         var seeder = scope.ServiceProvider.GetRequiredService<IdentitySeeder>();

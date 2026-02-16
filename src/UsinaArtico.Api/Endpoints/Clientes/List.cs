@@ -12,7 +12,7 @@ internal sealed class List : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("clientes", async (
+        app.MapGet("api/clientes", async (
                 IQueryHandler<ListClientesQuery, PagedList<ClienteResponse>> handler,
                 string? searchTerm,
                 string? sortColumn,
@@ -28,7 +28,6 @@ internal sealed class List : IEndpoint
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
             .WithTags(Tags.Clientes)
-            .RequireAuthorization()
             .WithSummary("Lista clientes paginados")
             .WithDescription("Retorna uma lista paginada de clientes.")
             .Produces<List<ClienteResponse>>(StatusCodes.Status200OK)

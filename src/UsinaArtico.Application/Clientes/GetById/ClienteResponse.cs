@@ -5,5 +5,25 @@ public sealed record ClienteResponse(
     string Nome,
     string Email,
     string Telefone,
-    string CpfCnpj,
-    string CodigoCliente);
+    string Documento,
+    string CodigoCliente,
+    List<EnderecoResponse> Enderecos);
+
+public sealed record EnderecoResponse(
+    Guid Id,
+    string CodigoInstalacao,
+    string Logradouro,
+    int TipoLigacao,
+    string Cep,
+    string Numero,
+    string Bairro,
+    string Cidade,
+    string Uf,
+    ContratoResponse? Contrato = null);
+
+public sealed record ContratoResponse(
+    Guid Id,
+    decimal ValorKwh,
+    decimal QuantidadeKwh,
+    DateTime DataInicio,
+    string Anexo);

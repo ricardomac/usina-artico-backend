@@ -13,8 +13,8 @@ using UsinaArtico.Infrastructure.Database;
 namespace UsinaArtico.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260206193218_AddIdentityTables")]
-    partial class AddIdentityTables
+    [Migration("20260214224636_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -277,10 +277,13 @@ namespace UsinaArtico.Infrastructure.Database.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Anexo")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
                         .HasColumnName("anexo");
+
+                    b.Property<DateTime>("DataInicio")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("data_inicio");
 
                     b.Property<DateTime>("DataVencimento")
                         .HasColumnType("timestamp with time zone")

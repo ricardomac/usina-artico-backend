@@ -19,6 +19,7 @@ public class PagedList<T>
     public int PageSize { get; }
 
     public int TotalCount { get; }
+    public int TotalPages => (int)Math.Ceiling(TotalCount / (double)PageSize);
 
     public bool HasNextPage => Page * PageSize < TotalCount;
 

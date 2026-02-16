@@ -1,16 +1,20 @@
 using UsinaArtico.Application.Abstractions.Messaging;
+using UsinaArtico.Application.Clientes.Create;
+using UsinaArtico.Domain.Clientes;
 
-namespace UsinaArtico.Application.Clientes.Create;
+namespace UsinaArtico.Application.Clientes.Update;
 
-public sealed record CreateClienteCommand(
+public sealed record UpdateClienteCommand(
+    Guid Id,
     string Nome,
     string Email,
     string Telefone,
     string Documento,
     string CodigoCliente,
-    List<EnderecoDto> Enderecos) : ICommand<Guid>;
+    List<UpdateEnderecoCommand> Enderecos) : ICommand;
 
-public sealed record EnderecoDto(
+public sealed record UpdateEnderecoCommand(
+    Guid? Id,
     string CodigoInstalacao,
     string Logradouro,
     int TipoLigacao,
@@ -19,9 +23,10 @@ public sealed record EnderecoDto(
     string Bairro,
     string Cidade,
     string Uf,
-    ContratoDto? Contrato);
+    UpdateContratoCommand? Contrato);
 
-public sealed record ContratoDto(
+public sealed record UpdateContratoCommand(
+    Guid? Id,
     decimal ValorKwh,
     decimal QuantidadeKwh,
     DateTime DataInicio,

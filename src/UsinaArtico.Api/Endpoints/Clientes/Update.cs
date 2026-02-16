@@ -1,12 +1,13 @@
 using UsinaArtico.Api.Extensions;
 using UsinaArtico.Api.Infrastructure;
 using UsinaArtico.Application.Abstractions.Messaging;
-using UsinaArtico.Application.Clientes.Create;
+using UsinaArtico.Application.Clientes.Update;
+using UsinaArtico.Domain.Clientes;
 using UsinaArtico.SharedKernel;
 
 namespace UsinaArtico.Api.Endpoints.Clientes;
 
-public sealed class Create : IEndpoint
+public sealed class Update : IEndpoint
 {
     public sealed class Request
     {
@@ -15,11 +16,12 @@ public sealed class Create : IEndpoint
         public string Telefone { get; set; } = string.Empty;
         public string Documento { get; set; } = string.Empty;
         public string CodigoCliente { get; set; } = string.Empty;
-        public List<EnderecoRequest> Enderecos { get; set; } = [];
+        public List<EnderecoUpdateRequest> Enderecos { get; set; } = [];
     }
 
-    public sealed class EnderecoRequest
+    public sealed class EnderecoUpdateRequest
     {
+        public Guid? Id { get; set; }
         public string CodigoInstalacao { get; set; } = string.Empty;
         public string Logradouro { get; set; } = string.Empty;
         public int TipoLigacao { get; set; }
@@ -28,10 +30,10 @@ public sealed class Create : IEndpoint
         public string Bairro { get; set; } = string.Empty;
         public string Cidade { get; set; } = string.Empty;
         public string Uf { get; set; } = string.Empty;
-        public ContratoRequest? Contrato { get; set; }
+        public ContratoUpdateRequest? Contrato { get; set; }
     }
 
-    public sealed class ContratoRequest
+    public sealed class ContratoUpdateRequest
     {
         public decimal ValorKwh { get; set; }
         public decimal QuantidadeKwh { get; set; }
@@ -41,18 +43,21 @@ public sealed class Create : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/clientes", async (
+        app.MapPut("api/clientes/{id}", async (
+            Guid id,
             Request request,
-            ICommandHandler<CreateClienteCommand, Guid> handler,
+            ICommandHandler<UpdateClienteCommand> handler,
             CancellationToken cancellationToken) =>
         {
-            var command = new CreateClienteCommand(
+            var command = new UpdateClienteCommand(
+                id,
                 request.Nome,
                 request.Email,
                 request.Telefone,
                 request.Documento,
                 request.CodigoCliente,
-                request.Enderecos.Select(e => new EnderecoDto(
+                request.Enderecos.Select(e => new UpdateEnderecoCommand(
+                    e.Id,
                     e.CodigoInstalacao,
                     e.Logradouro,
                     e.TipoLigacao,
@@ -61,7 +66,8 @@ public sealed class Create : IEndpoint
                     e.Bairro,
                     e.Cidade,
                     e.Uf,
-                    e.Contrato != null ? new ContratoDto(
+                    e.Contrato != null ? new UpdateContratoCommand(
+                        null, 
                         e.Contrato.ValorKwh,
                         e.Contrato.QuantidadeKwh,
                         e.Contrato.DataInicio,
@@ -69,13 +75,15 @@ public sealed class Create : IEndpoint
                     ) : null
                 )).ToList());
 
-            Result<Guid> result = await handler.Handle(command, cancellationToken);
-            return result.Match(Results.Ok, CustomResults.Problem);
+            Result result = await handler.Handle(command, cancellationToken);
+
+            return result.Match(Results.NoContent, CustomResults.Problem);
         })
         .WithTags(Tags.Clientes)
-        .WithSummary("Cria um novo cliente")
-        .WithDescription("Cria um novo cliente com endereços e contratos opcionais.")
-        .Produces<Guid>(StatusCodes.Status200OK)
+        .WithSummary("Atualiza um cliente")
+        .WithDescription("Atualiza os dados de um cliente existente, incluindo endereços e contratos. Endereços não listados serão removidos.")
+        .Produces(StatusCodes.Status204NoContent)
+        .Produces(StatusCodes.Status404NotFound)
         .Produces(StatusCodes.Status400BadRequest)
         .Produces(StatusCodes.Status500InternalServerError);
     }

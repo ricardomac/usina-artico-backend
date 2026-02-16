@@ -7,7 +7,7 @@ using UsinaArtico.SharedKernel;
 
 namespace UsinaArtico.Api.Endpoints.Todos;
 
-internal sealed class Create : IEndpoint
+internal sealed class Create 
 {
     public sealed class Request
     {

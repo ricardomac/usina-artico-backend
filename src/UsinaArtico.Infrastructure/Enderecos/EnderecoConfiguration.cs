@@ -10,7 +10,6 @@ internal sealed class EnderecoConfiguration : IEntityTypeConfiguration<Endereco>
     {
         builder.HasKey(e => e.Id);
 
-        builder.Property(e => e.UnidadeConsumidora).HasMaxLength(50).IsRequired();
         builder.Property(e => e.CodigoInstalacao).HasMaxLength(50);
         builder.Property(e => e.Logradouro).HasMaxLength(200).IsRequired();
         

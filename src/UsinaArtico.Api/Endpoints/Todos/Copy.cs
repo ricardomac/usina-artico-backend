@@ -6,7 +6,7 @@ using UsinaArtico.SharedKernel;
 
 namespace UsinaArtico.Api.Endpoints.Todos;
 
-internal sealed class Copy : IEndpoint
+internal sealed class Copy
 {
     public sealed class Request
     {

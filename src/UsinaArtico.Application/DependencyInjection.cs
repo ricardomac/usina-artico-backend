@@ -35,6 +35,10 @@ public static class DependencyInjection
 
         services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly, includeInternalTypes: true);
 
+        // Registrar serviços de aplicação
+        services.AddScoped<Abstractions.Services.ICidadeResolverService, Services.CidadeResolverService>();
+
+
         return services;
     }
 }

@@ -18,8 +18,6 @@ public sealed class Uf : ValueObject
             throw new ArgumentException("UF inválida", nameof(value));
         }
         
-        // Could validate list of valid UFs here
-
         return new Uf(value.ToUpper());
     }
 

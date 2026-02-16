@@ -9,5 +9,5 @@ public sealed class Cidade : Entity
     public string Nome { get; set; } = string.Empty;
     public Guid EstadoId { get; set; }
     
-    public Estado? Estado { get; set; }
+    public Estado Estado { get; set; }
 }
