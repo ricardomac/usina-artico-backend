@@ -4,6 +4,7 @@ using UsinaArtico.Application;
 using UsinaArtico.Application.Abstractions.Messaging;
 using UsinaArtico.Application.Clientes.GetById; // Reusing response
 using UsinaArtico.Application.Clientes.List;
+using UsinaArtico.Domain.Clientes;
 using UsinaArtico.SharedKernel;
 using UsinaArtico.SharedKernel.Authorization;
 
@@ -16,13 +17,15 @@ internal sealed class GetList : IEndpoint
         app.MapGet("/api/clientes", async (
                 IQueryHandler<ListClientesQuery, PagedList<ClienteResponse>> handler,
                 string? searchTerm,
+                TipoPessoa? tipoPessoa,
+                bool? isActive,
                 string? sortColumn,
                 string? sortOrder,
                 int page = 1,
                 int pageSize = 10,
                 CancellationToken cancellationToken = default) =>
             {
-                var query = new ListClientesQuery(searchTerm, sortColumn, sortOrder, page, pageSize);
+                var query = new ListClientesQuery(searchTerm, tipoPessoa, isActive, sortColumn, sortOrder, page, pageSize);
 
                 Result<PagedList<ClienteResponse>> result = await handler.Handle(query, cancellationToken);
 

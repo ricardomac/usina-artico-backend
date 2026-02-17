@@ -18,6 +18,7 @@ public sealed class Update : IEndpoint
         public string Documento { get; set; } = string.Empty;
         public string CodigoCliente { get; set; } = string.Empty;
         public List<EnderecoUpdateRequest> Enderecos { get; set; } = [];
+        public bool IsActive { get; set; }
     }
 
     public sealed class EnderecoUpdateRequest
@@ -57,6 +58,7 @@ public sealed class Update : IEndpoint
                     request.Telefone,
                     request.Documento,
                     request.CodigoCliente,
+                    request.IsActive,
                     request.Enderecos.Select(e => new UpdateEnderecoCommand(
                         e.Id,
                         e.CodigoInstalacao,

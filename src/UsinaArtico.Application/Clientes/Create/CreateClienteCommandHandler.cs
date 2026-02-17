@@ -58,7 +58,8 @@ internal sealed class CreateClienteCommandHandler(
             command.CodigoCliente,
             tipoPessoa,
             cpf,
-            cnpj
+            cnpj,
+            command.IsActive
         );
 
         context.Clientes.Add(cliente);

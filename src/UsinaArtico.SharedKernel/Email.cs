@@ -11,6 +11,8 @@ public sealed class Email : ValueObject
         Value = value;
     }
 
+    public static implicit operator string(Email email) => email.Value;
+
     public static Result<Email> Create(string? email)
     {
         if (string.IsNullOrWhiteSpace(email))
@@ -20,10 +22,11 @@ public sealed class Email : ValueObject
 
         if (email.Length > 200)
         {
-             return Result.Failure<Email>(Error.Failure("Email.TooLong", "O e-mail deve ter no máximo 200 caracteres."));
+            return Result.Failure<Email>(Error.Failure("Email.TooLong", "O e-mail deve ter no máximo 200 caracteres."));
         }
 
-        if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
+        if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase,
+                TimeSpan.FromMilliseconds(250)))
         {
             return Result.Failure<Email>(Error.Failure("Email.InvalidFormat", "O e-mail informado não é válido."));
         }

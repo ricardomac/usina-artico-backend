@@ -19,9 +19,19 @@ internal sealed class ListClientesQueryHandler(IApplicationDbContext context)
         if (!string.IsNullOrWhiteSpace(query.SearchTerm))
         {
             clientesQuery = clientesQuery.Where(p =>
-                p.Nome.Contains(query.SearchTerm) ||
-                p.Email.Value.Contains(query.SearchTerm) ||
-                p.CodigoCliente.Contains(query.SearchTerm));
+                EF.Functions.ILike(p.Nome, $"%{query.SearchTerm}%") ||
+                EF.Functions.ILike(p.Email, $"%{query.SearchTerm}%") ||
+                EF.Functions.ILike(p.CodigoCliente, $"%{query.SearchTerm}%"));
+        }
+
+        if (query.TipoPessoa.HasValue)
+        {
+            clientesQuery = clientesQuery.Where(p => p.Tipo == query.TipoPessoa.Value);
+        }
+
+        if (query.IsActive.HasValue)
+        {
+            clientesQuery = clientesQuery.Where(p => p.IsActive == query.IsActive.Value);
         }
 
         clientesQuery = OrderBy(query, clientesQuery);
@@ -32,8 +42,10 @@ internal sealed class ListClientesQueryHandler(IApplicationDbContext context)
                 c.Nome,
                 c.Email != null ? c.Email.Value : "",
                 c.Telefone,
+                c.Tipo,
                 c.Tipo == TipoPessoa.Fisica ? (c.Cpf != null ? c.Cpf.Value : "") : (c.Cnpj != null ? c.Cnpj.Value : ""),
                 c.CodigoCliente,
+                c.IsActive,
                 c.Enderecos.Select(e => new EnderecoResponse(
                     e.Id,
                     e.CodigoInstalacao,
@@ -58,8 +70,8 @@ internal sealed class ListClientesQueryHandler(IApplicationDbContext context)
     private static IQueryable<Cliente> OrderBy(ListClientesQuery query, IQueryable<Cliente> clientesQuery)
     {
         clientesQuery = query.SortOrder?.ToLower() == "desc"
-            ? clientesQuery.OrderByDescending(GetSortProperty(query))
-            : clientesQuery.OrderBy(GetSortProperty(query));
+            ? clientesQuery.OrderByDescending(c => c.IsActive).ThenByDescending(GetSortProperty(query))
+            : clientesQuery.OrderByDescending(c => c.IsActive).ThenBy(GetSortProperty(query));
 
         return clientesQuery;
     }

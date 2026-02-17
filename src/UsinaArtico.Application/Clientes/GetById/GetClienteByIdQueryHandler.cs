@@ -18,8 +18,10 @@ internal sealed class GetClienteByIdQueryHandler(IApplicationDbContext context)
                 c.Nome,
                 c.Email != null ? c.Email.Value : "",
                 c.Telefone,
+                c.Tipo,
                 c.Tipo == TipoPessoa.Fisica ? (c.Cpf != null ? c.Cpf.Value : "") : (c.Cnpj != null ? c.Cnpj.Value : ""),
                 c.CodigoCliente,
+                c.IsActive,
                 c.Enderecos.Select(e => new EnderecoResponse(
                     e.Id,
                     e.CodigoInstalacao,

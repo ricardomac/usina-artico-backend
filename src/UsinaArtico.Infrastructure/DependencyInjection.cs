@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -85,6 +86,7 @@ public static class DependencyInjection
             options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
             options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
         })
+       
         .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
         {
             o.RequireHttpsMetadata = false;
@@ -100,6 +102,23 @@ public static class DependencyInjection
         services.AddIdentityApiEndpoints<User>()
             .AddRoles<IdentityRole<Guid>>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
+        
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.Cookie.Name = "UsinaArtico.Auth";
+            options.ExpireTimeSpan = TimeSpan.FromHours(8);
+            options.SlidingExpiration = true;
+            options.Cookie.HttpOnly = true;
+            options.Cookie.SameSite = SameSiteMode.Strict;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        
+            // Retorna 401 em vez de redirecionar para login
+            options.Events.OnRedirectToLogin = context =>
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return Task.CompletedTask;
+            };
+        });
 
         services.AddHttpContextAccessor();
         services.AddScoped<IUserContext, UserContext>();

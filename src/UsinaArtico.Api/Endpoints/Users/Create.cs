@@ -1,25 +1,23 @@
 using UsinaArtico.Api.Extensions;
 using UsinaArtico.Api.Infrastructure;
 using UsinaArtico.Application.Abstractions.Messaging;
-using UsinaArtico.Application.Users.Register;
-using UsinaArtico.Domain.Enums;
+using UsinaArtico.Application.Users.Create;
 using UsinaArtico.SharedKernel;
-using UsinaArtico.SharedKernel.Authorization;
 
-namespace UsinaArtico.Api.Endpoints.Identity;
+namespace UsinaArtico.Api.Endpoints.Users;
 
-public sealed class Register : IEndpoint
+public sealed class Create : IEndpoint
 {
     public sealed record Request(string Email, string FirstName, string LastName, string Password, string RoleName);
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/users/register", async (
+        app.MapPost("/api/users", async (
             Request request,
-            ICommandHandler<RegisterUserCommand, Guid> handler,
+            ICommandHandler<CreateUserCommand, Guid> handler,
             CancellationToken cancellationToken) =>
         {
-            var command = new RegisterUserCommand(
+            var command = new CreateUserCommand(
                 request.Email,
                 request.FirstName,
                 request.LastName,

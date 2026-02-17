@@ -17,6 +17,7 @@ public sealed class Create : IEndpoint
         public string Documento { get; set; } = string.Empty;
         public string CodigoCliente { get; set; } = string.Empty;
         public List<EnderecoRequest> Enderecos { get; set; } = [];
+        public bool IsActive { get; set; }
     }
 
     public sealed class EnderecoRequest
@@ -53,6 +54,7 @@ public sealed class Create : IEndpoint
                 request.Telefone,
                 request.Documento,
                 request.CodigoCliente,
+                request.IsActive,
                 request.Enderecos.Select(e => new EnderecoDto(
                     e.CodigoInstalacao,
                     e.Logradouro,

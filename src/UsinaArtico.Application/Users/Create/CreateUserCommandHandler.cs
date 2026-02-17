@@ -1,19 +1,16 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using UsinaArtico.Application.Abstractions.Messaging;
-using UsinaArtico.Domain.Enums;
 using UsinaArtico.Domain.Users;
-using UsinaArtico.SharedKernel.Authorization;
 using UsinaArtico.SharedKernel;
 
-namespace UsinaArtico.Application.Users.Register;
+namespace UsinaArtico.Application.Users.Create;
 
-internal sealed class RegisterUserCommandHandler(
+internal sealed class CreateUserCommandHandler(
     UserManager<User> userManager,
     RoleManager<IdentityRole<Guid>> roleManager)
-    : ICommandHandler<RegisterUserCommand, Guid>
+    : ICommandHandler<CreateUserCommand, Guid>
 {
-    public async Task<Result<Guid>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
         var user = new User
         {

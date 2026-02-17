@@ -57,7 +57,8 @@ internal sealed class UpdateClienteCommandHandler(
             command.CodigoCliente,
             tipoPessoa,
             cpf,
-            cnpj
+            cnpj,
+            command.IsActive
         );
 
         // 5. Processar endereços (remover, atualizar e criar)

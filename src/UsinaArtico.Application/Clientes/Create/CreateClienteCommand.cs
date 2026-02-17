@@ -8,6 +8,7 @@ public sealed record CreateClienteCommand(
     string Telefone,
     string Documento,
     string CodigoCliente,
+    bool IsActive,
     List<EnderecoDto> Enderecos) : ICommand<Guid>;
 
 public sealed record EnderecoDto(

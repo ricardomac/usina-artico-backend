@@ -20,7 +20,7 @@ internal sealed class DeleteClienteCommandHandler(IApplicationDbContext context)
         }
 
         context.Clientes.Remove(cliente);
-
+        
         await context.SaveChangesAsync(cancellationToken);
 
         return Result.Success();

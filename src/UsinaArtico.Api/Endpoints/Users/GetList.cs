@@ -15,13 +15,15 @@ internal sealed class GetList : IEndpoint
         app.MapGet("/api/users", async (
             IQueryHandler<GetUsersQuery, PagedList<UserListResponse>> handler,
             string? searchTerm,
+            bool? isActive,
+            string? role,
             string? sortColumn,
             string? sortOrder,
             int page = 1,
             int pageSize = 10,
             CancellationToken cancellationToken = default) =>
         {
-            var query = new GetUsersQuery(searchTerm, sortColumn, sortOrder, page, pageSize);
+            var query = new GetUsersQuery(searchTerm, isActive, role, sortColumn, sortOrder, page, pageSize);
             Result<PagedList<UserListResponse>> result = await handler.Handle(query, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
             

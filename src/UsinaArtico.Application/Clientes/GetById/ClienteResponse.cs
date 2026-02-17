@@ -1,3 +1,5 @@
+using UsinaArtico.Domain.Clientes;
+
 namespace UsinaArtico.Application.Clientes.GetById;
 
 public sealed record ClienteResponse(
@@ -5,8 +7,10 @@ public sealed record ClienteResponse(
     string Nome,
     string Email,
     string Telefone,
+    TipoPessoa Tipo,
     string Documento,
     string CodigoCliente,
+    bool IsActive,
     List<EnderecoResponse> Enderecos);
 
 public sealed record EnderecoResponse(
