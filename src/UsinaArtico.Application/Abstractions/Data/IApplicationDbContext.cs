@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity; // Necessário para IdentityRole e IdentityUserRole
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using UsinaArtico.Domain.Todos;
 using UsinaArtico.Domain.Users;
 
@@ -19,5 +20,8 @@ public interface IApplicationDbContext
     DbSet<Domain.Contratos.Contrato> Contratos { get; }
     DbSet<Domain.Enderecos.Endereco> Enderecos { get; }
 
+    DbSet<IdentityRoleClaim<Guid>> RoleClaims { get; }
+    
+    Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

@@ -26,7 +26,7 @@ internal sealed class GetList : IEndpoint
             return result.Match(Results.Ok, CustomResults.Problem);
             
         })
-        .HasPermission(Permissions.UsuariosRead)
+        // .HasPermission(Permissions.UsuariosRead)
         .WithTags(Tags.Users)
         .WithSummary("Lista usuários paginados")
         .WithDescription("Retorna uma lista paginada de usuários.")

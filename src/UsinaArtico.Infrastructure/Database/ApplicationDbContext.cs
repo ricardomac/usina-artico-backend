@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using UsinaArtico.Application.Abstractions.Data;
 using UsinaArtico.Domain.Cidades;
 using UsinaArtico.Domain.Clientes;
@@ -26,6 +27,7 @@ public sealed class ApplicationDbContext(
     public DbSet<Cliente> Clientes { get; set; }
     public DbSet<Contrato> Contratos { get; set; }
     public DbSet<Endereco> Enderecos { get; set; }
+    public DbSet<IdentityRoleClaim<Guid>> RoleClaims { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,6 +39,11 @@ public sealed class ApplicationDbContext(
 
         modelBuilder.HasDefaultSchema(Schemas.Default);
 
+    }
+
+    public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+    {
+        return await Database.BeginTransactionAsync(cancellationToken);
     }
 
 

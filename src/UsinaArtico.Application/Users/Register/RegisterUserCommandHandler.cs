@@ -31,19 +31,15 @@ internal sealed class RegisterUserCommandHandler(
             return Result.Failure<Guid>(Error.Conflict("Identity.Error", firstError?.Description ?? "Unknown error"));
         }
 
-        // Assign Role
-        string roleName = command.NivelAcesso.ToString(); // "Usuario", "Vendedor", "Admin"
         
-        var roleExists = await roleManager.RoleExistsAsync(roleName);
+        var roleExists = await roleManager.RoleExistsAsync(command.RoleName);
         if (!roleExists)
         {
-             return Result.Failure<Guid>(Error.NotFound("Identity.Role", $"Role {roleName} not found"));
+             return Result.Failure<Guid>(Error.NotFound("Identity.Role", $"Role {command.RoleName} not found"));
         }
 
-        await userManager.AddToRoleAsync(user, roleName);
+        await userManager.AddToRoleAsync(user, command.RoleName);
 
-        // Add NivelAcesso claim
-        await userManager.AddClaimAsync(user, new Claim("nivel_acesso", ((int)command.NivelAcesso).ToString()));
 
         return user.Id;
     }

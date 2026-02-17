@@ -9,7 +9,7 @@ using UsinaArtico.SharedKernel.Authorization;
 
 namespace UsinaArtico.Api.Endpoints.Clientes;
 
-internal sealed class List : IEndpoint
+internal sealed class GetList : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
@@ -28,7 +28,7 @@ internal sealed class List : IEndpoint
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
-            .HasPermission(Permissions.ClientesRead)
+            // .HasPermission(Permissions.ClientesRead)
             .WithTags(Tags.Clientes)
             .WithSummary("Lista clientes paginados")
             .WithDescription("Retorna uma lista paginada de clientes.")

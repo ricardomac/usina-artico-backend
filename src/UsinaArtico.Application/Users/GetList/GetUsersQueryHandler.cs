@@ -30,7 +30,7 @@ internal sealed class GetUsersQueryHandler(IApplicationDbContext context)
             Nome = user.FirstName + " " + user.LastName,
             Email = user.Email,
             IsActive = user.IsActive,
-            NivelAcesso = context.UserRoles
+            RoleName = context.UserRoles
                 .Where(ur => ur.UserId == user.Id)
                 .Join(context.Roles, 
                       ur => ur.RoleId, 

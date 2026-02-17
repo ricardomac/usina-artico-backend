@@ -10,7 +10,7 @@ public sealed record UserListResponse
 
     public string Nome { get; init; } = string.Empty;
 
-    public string? NivelAcesso { get; init; } = string.Empty;
+    public string? RoleName { get; init; } = string.Empty;
     public bool IsActive { get; set; }
     
 }

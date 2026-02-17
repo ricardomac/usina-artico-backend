@@ -10,7 +10,7 @@ namespace UsinaArtico.Api.Endpoints.Identity;
 
 public sealed class Register : IEndpoint
 {
-    public sealed record Request(string Email, string FirstName, string LastName, string Password, int NivelAcesso);
+    public sealed record Request(string Email, string FirstName, string LastName, string Password, string RoleName);
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
@@ -24,7 +24,7 @@ public sealed class Register : IEndpoint
                 request.FirstName,
                 request.LastName,
                 request.Password,
-                (NivelAcesso)request.NivelAcesso);
+               request.RoleName);
 
             Result<Guid> result = await handler.Handle(command, cancellationToken);
 
