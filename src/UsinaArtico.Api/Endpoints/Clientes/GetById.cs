@@ -16,22 +16,22 @@ internal sealed class GetById : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapGet("api/clientes/{id}", async (
-            Guid id,
-            IQueryHandler<GetClienteByIdQuery, ClienteResponse> handler,
-            CancellationToken cancellationToken) =>
-        {
-            var query = new GetClienteByIdQuery(id);
+                Guid id,
+                IQueryHandler<GetClienteByIdQuery, ClienteResponse> handler,
+                CancellationToken cancellationToken) =>
+            {
+                var query = new GetClienteByIdQuery(id);
 
-            Result<ClienteResponse> result = await handler.Handle(query, cancellationToken);
+                Result<ClienteResponse> result = await handler.Handle(query, cancellationToken);
 
-            return result.Match(Results.Ok, CustomResults.Problem);
-        })
-        .HasPermission(Permissions.ClientesRead)
-        .WithTags(Tags.Clientes)
+                return result.Match(Results.Ok, CustomResults.Problem);
+            })
+            .HasPermission(Permissions.ClientesRead)
+            .WithTags(Tags.Clientes)
             .WithSummary("Obtém um cliente pelo ID")
-        .WithDescription("Retorna os detalhes de um cliente específico.")
-        .Produces<ClienteResponse>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status404NotFound)
-        .Produces(StatusCodes.Status500InternalServerError);
+            .WithDescription("Retorna os detalhes de um cliente específico.")
+            .Produces<ClienteResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status500InternalServerError);
     }
 }

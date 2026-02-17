@@ -45,48 +45,51 @@ public sealed class Update : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPut("api/clientes/{id}", async (
-            Guid id,
-            Request request,
-            ICommandHandler<UpdateClienteCommand> handler,
-            CancellationToken cancellationToken) =>
-        {
-            var command = new UpdateClienteCommand(
-                id,
-                request.Nome,
-                request.Email,
-                request.Telefone,
-                request.Documento,
-                request.CodigoCliente,
-                request.Enderecos.Select(e => new UpdateEnderecoCommand(
-                    e.Id,
-                    e.CodigoInstalacao,
-                    e.Logradouro,
-                    e.TipoLigacao,
-                    e.Cep,
-                    e.Numero,
-                    e.Bairro,
-                    e.Cidade,
-                    e.Uf,
-                    e.Contrato != null ? new UpdateContratoCommand(
-                        null, 
-                        e.Contrato.ValorKwh,
-                        e.Contrato.QuantidadeKwh,
-                        e.Contrato.DataInicio,
-                        e.Contrato.Anexo
-                    ) : null
-                )).ToList());
+                Guid id,
+                Request request,
+                ICommandHandler<UpdateClienteCommand> handler,
+                CancellationToken cancellationToken) =>
+            {
+                var command = new UpdateClienteCommand(
+                    id,
+                    request.Nome,
+                    request.Email,
+                    request.Telefone,
+                    request.Documento,
+                    request.CodigoCliente,
+                    request.Enderecos.Select(e => new UpdateEnderecoCommand(
+                        e.Id,
+                        e.CodigoInstalacao,
+                        e.Logradouro,
+                        e.TipoLigacao,
+                        e.Cep,
+                        e.Numero,
+                        e.Bairro,
+                        e.Cidade,
+                        e.Uf,
+                        e.Contrato != null
+                            ? new UpdateContratoCommand(
+                                null,
+                                e.Contrato.ValorKwh,
+                                e.Contrato.QuantidadeKwh,
+                                e.Contrato.DataInicio,
+                                e.Contrato.Anexo
+                            )
+                            : null
+                    )).ToList());
 
-            Result result = await handler.Handle(command, cancellationToken);
+                Result result = await handler.Handle(command, cancellationToken);
 
-            return result.Match(Results.NoContent, CustomResults.Problem);
-        })
-        .HasPermission(Permissions.ClientesUpdate)
-        .WithTags(Tags.Clientes)
-        .WithSummary("Atualiza um cliente")
-        .WithDescription("Atualiza os dados de um cliente existente, incluindo endereços e contratos. Endereços não listados serão removidos.")
-        .Produces(StatusCodes.Status204NoContent)
-        .Produces(StatusCodes.Status404NotFound)
-        .Produces(StatusCodes.Status400BadRequest)
-        .Produces(StatusCodes.Status500InternalServerError);
+                return result.Match(Results.NoContent, CustomResults.Problem);
+            })
+            .HasPermission(Permissions.ClientesUpdate)
+            .WithTags(Tags.Clientes)
+            .WithSummary("Atualiza um cliente")
+            .WithDescription(
+                "Atualiza os dados de um cliente existente, incluindo endereços e contratos. Endereços não listados serão removidos.")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status500InternalServerError);
     }
 }

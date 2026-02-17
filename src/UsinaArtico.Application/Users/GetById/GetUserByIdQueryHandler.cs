@@ -33,9 +33,9 @@ internal sealed class GetUserByIdQueryHandler(
         var roles = await userManager.GetRolesAsync(user);
         var permissions = await permissionProvider.GetForUserIdAsync(user.Id);
 
-        var userClaims = await userManager.GetClaimsAsync(user);
-        var nivelAcessoClaim = userClaims.FirstOrDefault(c => c.Type == "nivel_acesso")?.Value;
-        int? nivelAcesso = int.TryParse(nivelAcessoClaim, out var n) ? n : null;
+        // var userClaims = await userManager.GetClaimsAsync(user);
+        // var nivelAcessoClaim = userClaims.FirstOrDefault(c => c.Type == "nivel_acesso")?.Value;
+        // int? nivelAcesso = int.TryParse(nivelAcessoClaim, out var n) ? n : null;
 
         return new UserResponse
         {
@@ -45,7 +45,7 @@ internal sealed class GetUserByIdQueryHandler(
             Email = user.Email!,
             Roles = [.. roles],
             Permissions = [.. permissions],
-            NivelAcesso = nivelAcesso
+            // NivelAcesso = nivelAcesso
         };
     }
 }

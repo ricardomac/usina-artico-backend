@@ -25,6 +25,7 @@ internal sealed class ChangeStatus : IEndpoint
 
             return result.Match(Results.NoContent, CustomResults.Problem);
         })
+        .HasPermission(Permissions.UsuariosUpdate)
         .WithTags(Tags.Users);
     }
 }

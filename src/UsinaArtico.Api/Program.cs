@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGenWithAuth();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
+    options.AddPolicy(" AllowAll",
         policy =>
         {
             policy.AllowAnyOrigin()
@@ -35,7 +35,11 @@ builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 
 WebApplication app = builder.Build();
 
-app.UseCors("AllowAll");
+app.UseCors(x => x
+    .WithOrigins("http://localhost:4200", "https://sistema.usinaartico.com.br/") 
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials()); 
 
 app.MapEndpoints();
 

@@ -21,7 +21,7 @@ public sealed class Get : IEndpoint
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        // .HasPermission(Permissions.UsuariosRead)
+        .HasPermission(Permissions.UsuariosRead)
         .WithTags("Roles");
     }
 }
