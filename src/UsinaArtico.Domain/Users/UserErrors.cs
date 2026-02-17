@@ -6,21 +6,21 @@ public static class UserErrors
 {
     public static Error NotFound(Guid userId) => Error.NotFound(
         "Users.NotFound",
-        $"The user with the Id = '{userId}' was not found");
+        $"O usuário com o Id = '{userId}' não foi encontrado");
 
     public static Error Unauthorized() => Error.Failure(
         "Users.Unauthorized",
-        "You are not authorized to perform this action.");
+        "Você não está autorizado a realizar esta ação.");
 
     public static readonly Error NotFoundByEmail = Error.NotFound(
         "Users.NotFoundByEmail",
-        "The user with the specified email was not found");
+        "O usuário com o email especificado não foi encontrado");
 
     public static readonly Error EmailNotUnique = Error.Conflict(
         "Users.EmailNotUnique",
-        "The provided email is not unique");
+        "O email fornecido não é único");
 
     public static readonly Error Inactive = Error.Failure(
         "Users.Inactive",
-        "The user is inactive");
+        "O usuário está inativo");
 }

@@ -17,11 +17,6 @@ internal sealed class GetUserByIdQueryHandler(
 {
     public async Task<Result<UserResponse>> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
     {
-        if (query.UserId != userContext.UserId)
-        {
-            return Result.Failure<UserResponse>(UserErrors.Unauthorized());
-        }
-
         User? user = await context.Users
             .SingleOrDefaultAsync(u => u.Id == query.UserId, cancellationToken);
 
@@ -43,7 +38,7 @@ internal sealed class GetUserByIdQueryHandler(
             FirstName = user.FirstName,
             LastName = user.LastName,
             Email = user.Email!,
-            Roles = [.. roles],
+            RoleName = roles.FirstOrDefault() ?? string.Empty,
             Permissions = [.. permissions],
             // NivelAcesso = nivelAcesso
         };

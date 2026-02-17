@@ -15,6 +15,7 @@ using UsinaArtico.Infrastructure.Authentication;
 using UsinaArtico.Infrastructure.Authorization;
 using UsinaArtico.Infrastructure.Database;
 using UsinaArtico.Infrastructure.DomainEvents;
+using UsinaArtico.Infrastructure.Identity;
 using UsinaArtico.Infrastructure.Time;
 using UsinaArtico.SharedKernel;
 
@@ -101,7 +102,9 @@ public static class DependencyInjection
 
         services.AddIdentityApiEndpoints<User>()
             .AddRoles<IdentityRole<Guid>>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddErrorDescriber<PortugueseIdentityErrorDescriber>()
+            .AddDefaultTokenProviders();
         
         services.ConfigureApplicationCookie(options =>
         {
