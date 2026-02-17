@@ -4,6 +4,7 @@ using UsinaArtico.Application.Abstractions.Messaging;
 using UsinaArtico.Application.Users.Register;
 using UsinaArtico.Domain.Enums;
 using UsinaArtico.SharedKernel;
+using UsinaArtico.SharedKernel.Authorization;
 
 namespace UsinaArtico.Api.Endpoints.Identity;
 

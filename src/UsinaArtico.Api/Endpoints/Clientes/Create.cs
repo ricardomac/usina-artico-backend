@@ -3,6 +3,7 @@ using UsinaArtico.Api.Infrastructure;
 using UsinaArtico.Application.Abstractions.Messaging;
 using UsinaArtico.Application.Clientes.Create;
 using UsinaArtico.SharedKernel;
+using UsinaArtico.SharedKernel.Authorization;
 
 namespace UsinaArtico.Api.Endpoints.Clientes;
 
@@ -72,6 +73,7 @@ public sealed class Create : IEndpoint
             Result<Guid> result = await handler.Handle(command, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
+        .HasPermission(Permissions.ClientesWrite)
         .WithTags(Tags.Clientes)
         .WithSummary("Cria um novo cliente")
         .WithDescription("Cria um novo cliente com endereços e contratos opcionais.")

@@ -3,6 +3,7 @@ using UsinaArtico.Api.Infrastructure;
 using UsinaArtico.Application.Abstractions.Messaging;
 using UsinaArtico.Application.Todos.Delete;
 using UsinaArtico.SharedKernel;
+using UsinaArtico.SharedKernel.Authorization;
 
 namespace UsinaArtico.Api.Endpoints.Todos;
 
@@ -21,7 +22,7 @@ internal sealed class Delete
 
             return result.Match(Results.NoContent, CustomResults.Problem);
         })
-        .WithTags(Tags.Todos)
-        .RequireAuthorization();
+        .HasPermission(Permissions.TodosDelete)
+        .WithTags(Tags.Todos);
     }
 }

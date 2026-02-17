@@ -3,6 +3,7 @@ using UsinaArtico.Api.Infrastructure;
 using UsinaArtico.Application.Abstractions.Messaging;
 using UsinaArtico.Application.Todos.Copy;
 using UsinaArtico.SharedKernel;
+using UsinaArtico.SharedKernel.Authorization;
 
 namespace UsinaArtico.Api.Endpoints.Todos;
 
@@ -32,7 +33,7 @@ internal sealed class Copy
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .WithTags(Tags.Todos)
-        .RequireAuthorization();
+        .HasPermission(Permissions.TodosWrite)
+        .WithTags(Tags.Todos);
     }
 }

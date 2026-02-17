@@ -2,7 +2,6 @@ namespace UsinaArtico.Domain.Enums;
 
 public enum NivelAcesso
 {
-    Usuario = 1,
-    Vendedor = 2,
-    Admin = 3
+    Vendedor = 1,
+    Admin = 2,
 }

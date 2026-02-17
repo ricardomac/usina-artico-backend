@@ -13,4 +13,6 @@ public sealed record UserResponse
     public List<string> Roles { get; init; } = [];
 
     public List<string> Permissions { get; init; } = [];
+
+    public int? NivelAcesso { get; init; }
 }

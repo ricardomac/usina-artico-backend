@@ -21,15 +21,13 @@ public class IdentitySeederTests : BaseIntegrationTest
         using var scope = _scope.ServiceProvider.CreateScope();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
-        var rolesStr = new[] { NivelAcesso.Admin.ToString(), NivelAcesso.Vendedor.ToString(), NivelAcesso.Usuario.ToString() };
+        var rolesStr = new[] { NivelAcesso.Admin.ToString(), NivelAcesso.Vendedor.ToString() };
 
         foreach (var roleName in rolesStr)
         {
-            // Verify Role Exists
             var exists = await roleManager.RoleExistsAsync(roleName);
             Assert.True(exists, $"Role {roleName} should exist.");
 
-            // Verify Claims (Optional - checking Admin claims)
             if (roleName == NivelAcesso.Admin.ToString())
             {
                 var role = await roleManager.FindByNameAsync(roleName);

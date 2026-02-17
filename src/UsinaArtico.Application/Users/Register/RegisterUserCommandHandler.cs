@@ -42,6 +42,9 @@ internal sealed class RegisterUserCommandHandler(
 
         await userManager.AddToRoleAsync(user, roleName);
 
+        // Add NivelAcesso claim
+        await userManager.AddClaimAsync(user, new Claim("nivel_acesso", ((int)command.NivelAcesso).ToString()));
+
         return user.Id;
     }
 }

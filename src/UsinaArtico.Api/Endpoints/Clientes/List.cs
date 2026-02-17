@@ -5,6 +5,7 @@ using UsinaArtico.Application.Abstractions.Messaging;
 using UsinaArtico.Application.Clientes.GetById; // Reusing response
 using UsinaArtico.Application.Clientes.List;
 using UsinaArtico.SharedKernel;
+using UsinaArtico.SharedKernel.Authorization;
 
 namespace UsinaArtico.Api.Endpoints.Clientes;
 
@@ -12,7 +13,7 @@ internal sealed class List : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/clientes", async (
+        app.MapGet("/api/clientes", async (
                 IQueryHandler<ListClientesQuery, PagedList<ClienteResponse>> handler,
                 string? searchTerm,
                 string? sortColumn,
@@ -27,6 +28,7 @@ internal sealed class List : IEndpoint
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
+            .HasPermission(Permissions.ClientesRead)
             .WithTags(Tags.Clientes)
             .WithSummary("Lista clientes paginados")
             .WithDescription("Retorna uma lista paginada de clientes.")

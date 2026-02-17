@@ -12,7 +12,7 @@ internal sealed class GetUserByIdQueryHandler(
     IApplicationDbContext context,
     IUserContext userContext,
     UserManager<User> userManager,
-    RoleManager<IdentityRole<Guid>> roleManager)
+    IPermissionProvider permissionProvider)
     : IQueryHandler<GetUserByIdQuery, UserResponse>
 {
     public async Task<Result<UserResponse>> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
@@ -31,33 +31,11 @@ internal sealed class GetUserByIdQueryHandler(
         }
 
         var roles = await userManager.GetRolesAsync(user);
-        var permissions = new HashSet<string>();
+        var permissions = await permissionProvider.GetForUserIdAsync(user.Id);
 
-        foreach (var roleName in roles)
-        {
-            var role = await roleManager.FindByNameAsync(roleName);
-            if (role is not null)
-            {
-                var claims = await roleManager.GetClaimsAsync(role);
-                foreach (var claim in claims)
-                {
-                    if (claim.Type == "Permission")
-                    {
-                        permissions.Add(claim.Value);
-                    }
-                }
-            }
-        }
-
-        // Also get direct user claims if any
         var userClaims = await userManager.GetClaimsAsync(user);
-        foreach (var claim in userClaims)
-        {
-            if (claim.Type == "Permission")
-            {
-                permissions.Add(claim.Value);
-            }
-        }
+        var nivelAcessoClaim = userClaims.FirstOrDefault(c => c.Type == "nivel_acesso")?.Value;
+        int? nivelAcesso = int.TryParse(nivelAcessoClaim, out var n) ? n : null;
 
         return new UserResponse
         {
@@ -66,7 +44,8 @@ internal sealed class GetUserByIdQueryHandler(
             LastName = user.LastName,
             Email = user.Email!,
             Roles = [.. roles],
-            Permissions = [.. permissions]
+            Permissions = [.. permissions],
+            NivelAcesso = nivelAcesso
         };
     }
 }

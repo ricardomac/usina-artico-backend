@@ -469,6 +469,10 @@ namespace UsinaArtico.Infrastructure.Database.Migrations
                         .HasColumnType("text")
                         .HasColumnName("first_name");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("text")

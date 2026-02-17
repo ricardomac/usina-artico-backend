@@ -3,6 +3,7 @@ using UsinaArtico.Api.Infrastructure;
 using UsinaArtico.Application.Abstractions.Messaging;
 using UsinaArtico.Application.Roles.Create;
 using UsinaArtico.SharedKernel;
+using UsinaArtico.SharedKernel.Authorization;
 
 namespace UsinaArtico.Api.Endpoints.Roles;
 
@@ -23,7 +24,7 @@ public sealed class Create : IEndpoint
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .WithTags("Roles")
-        .RequireAuthorization(); // Add Policy later if needed, e.g. Admin only
+        .HasPermission(Permissions.UsuariosUpdate)
+        .WithTags("Roles");
     }
 }

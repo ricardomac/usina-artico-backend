@@ -3,6 +3,7 @@ using UsinaArtico.Api.Infrastructure;
 using UsinaArtico.Application.Abstractions.Messaging;
 using UsinaArtico.Application.Clientes.Delete;
 using UsinaArtico.SharedKernel;
+using UsinaArtico.SharedKernel.Authorization;
 
 namespace UsinaArtico.Api.Endpoints.Clientes;
 
@@ -21,8 +22,8 @@ public sealed class Delete : IEndpoint
 
             return result.Match(Results.NoContent, CustomResults.Problem);
         })
+        .HasPermission(Permissions.ClientesDelete)
         .WithTags(Tags.Clientes)
-        .RequireAuthorization()
         .WithSummary("Remove um cliente")
         .WithDescription("Remove um cliente existente e todos os seus dados associados.")
         .Produces(StatusCodes.Status204NoContent)

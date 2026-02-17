@@ -12,7 +12,7 @@ public sealed class GetMe : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/user/me", async (
+        app.MapGet("/api/users/me", async (
             IUserContext userContext,
             IQueryHandler<GetUserByIdQuery, UserResponse> handler,
             CancellationToken cancellationToken) =>

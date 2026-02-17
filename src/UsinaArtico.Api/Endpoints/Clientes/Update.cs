@@ -4,6 +4,7 @@ using UsinaArtico.Application.Abstractions.Messaging;
 using UsinaArtico.Application.Clientes.Update;
 using UsinaArtico.Domain.Clientes;
 using UsinaArtico.SharedKernel;
+using UsinaArtico.SharedKernel.Authorization;
 
 namespace UsinaArtico.Api.Endpoints.Clientes;
 
@@ -79,6 +80,7 @@ public sealed class Update : IEndpoint
 
             return result.Match(Results.NoContent, CustomResults.Problem);
         })
+        .HasPermission(Permissions.ClientesUpdate)
         .WithTags(Tags.Clientes)
         .WithSummary("Atualiza um cliente")
         .WithDescription("Atualiza os dados de um cliente existente, incluindo endereços e contratos. Endereços não listados serão removidos.")

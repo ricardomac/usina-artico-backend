@@ -7,6 +7,7 @@ using UsinaArtico.Api.Infrastructure;
 using UsinaArtico.Application.Abstractions.Messaging;
 using UsinaArtico.Application.Clientes.GetById;
 using UsinaArtico.SharedKernel;
+using UsinaArtico.SharedKernel.Authorization;
 
 namespace UsinaArtico.Api.Endpoints.Clientes;
 
@@ -25,6 +26,7 @@ internal sealed class GetById : IEndpoint
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
+        .HasPermission(Permissions.ClientesRead)
         .WithTags(Tags.Clientes)
             .WithSummary("Obtém um cliente pelo ID")
         .WithDescription("Retorna os detalhes de um cliente específico.")

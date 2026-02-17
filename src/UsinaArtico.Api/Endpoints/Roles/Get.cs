@@ -3,6 +3,7 @@ using UsinaArtico.Api.Infrastructure;
 using UsinaArtico.Application.Abstractions.Messaging;
 using UsinaArtico.Application.Roles.Get;
 using UsinaArtico.SharedKernel;
+using UsinaArtico.SharedKernel.Authorization;
 
 namespace UsinaArtico.Api.Endpoints.Roles;
 
@@ -20,7 +21,7 @@ public sealed class Get : IEndpoint
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .WithTags("Roles")
-        .RequireAuthorization();
+        .HasPermission(Permissions.UsuariosRead)
+        .WithTags("Roles");
     }
 }

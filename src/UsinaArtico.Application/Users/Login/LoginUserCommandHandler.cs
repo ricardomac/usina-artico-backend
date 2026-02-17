@@ -17,6 +17,11 @@ internal sealed class LoginUserCommandHandler(UserManager<User> userManager)
             return Result.Failure<User>(UserErrors.NotFoundByEmail);
         }
 
+        if (!user.IsActive)
+        {
+            return Result.Failure<User>(UserErrors.Inactive);
+        }
+
         bool verified = await userManager.CheckPasswordAsync(user, command.Password);
 
         if (!verified)

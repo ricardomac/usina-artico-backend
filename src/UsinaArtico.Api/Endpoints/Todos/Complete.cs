@@ -3,6 +3,7 @@ using UsinaArtico.Api.Infrastructure;
 using UsinaArtico.Application.Abstractions.Messaging;
 using UsinaArtico.Application.Todos.Complete;
 using UsinaArtico.SharedKernel;
+using UsinaArtico.SharedKernel.Authorization;
 
 namespace UsinaArtico.Api.Endpoints.Todos;
 
@@ -21,7 +22,7 @@ internal sealed class Complete
 
             return result.Match(Results.NoContent, CustomResults.Problem);
         })
-        .WithTags(Tags.Todos)
-        .RequireAuthorization();
+        .HasPermission(Permissions.TodosUpdate)
+        .WithTags(Tags.Todos);
     }
 }

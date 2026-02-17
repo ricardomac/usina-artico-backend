@@ -11,23 +11,37 @@ public sealed class IdentitySeeder(RoleManager<IdentityRole<Guid>> roleManager)
     {
         await SeedRoleAsync(NivelAcesso.Admin, 
         [
-            new Claim("Permission", Permissoes.Admin),
-            new Claim("Permission", Permissoes.Produtos.Ler),
-            new Claim("Permission", Permissoes.Produtos.Escrever),
-            new Claim("Permission", Permissoes.Vendedor),
-            new Claim("Permission", Permissoes.Usuario)
+            new Claim(CustomClaimTypes.Permission, Permissions.UsuariosRead),
+            new Claim(CustomClaimTypes.Permission, Permissions.UsuariosWrite),
+            new Claim(CustomClaimTypes.Permission, Permissions.UsuariosUpdate),
+            new Claim(CustomClaimTypes.Permission, Permissions.UsuariosDelete),
+            
+            new Claim(CustomClaimTypes.Permission, Permissions.ClientesRead),
+            new Claim(CustomClaimTypes.Permission, Permissions.ClientesWrite),
+            new Claim(CustomClaimTypes.Permission, Permissions.ClientesUpdate),
+            new Claim(CustomClaimTypes.Permission, Permissions.ClientesDelete),
+            
+               
+            new Claim(CustomClaimTypes.Permission, Permissions.GestaoFaturasRead),
+            new Claim(CustomClaimTypes.Permission, Permissions.GestaoFaturasWrite),
+            new Claim(CustomClaimTypes.Permission, Permissions.GestaoFaturasUpdate),
+            new Claim(CustomClaimTypes.Permission, Permissions.GestaoFaturasDelete),
+            
+            new Claim(CustomClaimTypes.Permission, Permissions.TodosRead),
+            new Claim(CustomClaimTypes.Permission, Permissions.TodosWrite),
+            new Claim(CustomClaimTypes.Permission, Permissions.TodosUpdate),
+            new Claim(CustomClaimTypes.Permission, Permissions.TodosDelete),
         ]);
 
         await SeedRoleAsync(NivelAcesso.Vendedor, 
         [
-            new Claim("Permission", Permissoes.Vendedor),
-            new Claim("Permission", Permissoes.Produtos.Ler)
+            new Claim(CustomClaimTypes.Permission, Permissions.ClientesRead),
+            new Claim(CustomClaimTypes.Permission, Permissions.ClientesWrite),
+            new Claim(CustomClaimTypes.Permission, Permissions.ClientesUpdate),
+            new Claim(CustomClaimTypes.Permission, Permissions.ClientesDelete),
         ]);
 
-        await SeedRoleAsync(NivelAcesso.Usuario, 
-        [
-            new Claim("Permission", Permissoes.Usuario)
-        ]);
+       
     }
 
     private async Task SeedRoleAsync(NivelAcesso roleEnum, IEnumerable<Claim> claims)
