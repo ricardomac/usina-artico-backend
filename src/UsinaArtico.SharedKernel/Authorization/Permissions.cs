@@ -18,10 +18,5 @@ public static class Permissions
     public const string GestaoFaturasWrite = "gestao-faturas:write";
     public const string GestaoFaturasUpdate = "gestao-faturas:update";
     public const string GestaoFaturasDelete = "gestao-faturas:delete";
-    
-    public const string TodosRead = "todos:read";
-    public const string TodosWrite = "todos:write";
-    public const string TodosUpdate = "todos:update";
-    public const string TodosDelete = "todos:delete";
 
 }

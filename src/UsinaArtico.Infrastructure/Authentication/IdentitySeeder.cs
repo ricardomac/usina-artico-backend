@@ -27,10 +27,6 @@ public sealed class IdentitySeeder(RoleManager<IdentityRole<Guid>> roleManager)
             new Claim(CustomClaimTypes.Permission, Permissions.GestaoFaturasUpdate),
             new Claim(CustomClaimTypes.Permission, Permissions.GestaoFaturasDelete),
             
-            new Claim(CustomClaimTypes.Permission, Permissions.TodosRead),
-            new Claim(CustomClaimTypes.Permission, Permissions.TodosWrite),
-            new Claim(CustomClaimTypes.Permission, Permissions.TodosUpdate),
-            new Claim(CustomClaimTypes.Permission, Permissions.TodosDelete),
         ]);
 
         await SeedRoleAsync(NivelAcesso.Vendedor, 
