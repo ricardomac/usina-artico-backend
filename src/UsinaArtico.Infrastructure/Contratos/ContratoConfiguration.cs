@@ -13,6 +13,7 @@ internal sealed class ContratoConfiguration : IEntityTypeConfiguration<Contrato>
         builder.Property(c => c.Anexo).HasMaxLength(500); 
         builder.Property(c => c.ValorKwh).HasColumnType("decimal(18,2)");
         builder.Property(c => c.QuantidadeKwh).HasColumnType("decimal(18,2)");
+        builder.Property(c => c.DataInicio).HasColumnType("date");
         
         builder.HasMany(c => c.Enderecos)
             .WithOne(e => e.Contrato)
