@@ -9,5 +9,7 @@ public sealed class Auth : IEndpoint
         app.MapGroup("/api/auth")
             .MapIdentityApi<User>()
             .WithTags(Tags.Auth);
+        
+        
     }
 }
