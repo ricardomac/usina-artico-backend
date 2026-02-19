@@ -112,8 +112,12 @@ public static class DependencyInjection
             options.ExpireTimeSpan = TimeSpan.FromHours(8);
             options.SlidingExpiration = true;
             options.Cookie.HttpOnly = true;
-            options.Cookie.SameSite = SameSiteMode.Strict;
-            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+      
+            options.Cookie.SameSite = SameSiteMode.None;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;  // ← MUDE ISSO!
+            
+            // options.Cookie.SameSite = SameSiteMode.Strict;
+            // options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         
             // Retorna 401 em vez de redirecionar para login
             options.Events.OnRedirectToLogin = context =>

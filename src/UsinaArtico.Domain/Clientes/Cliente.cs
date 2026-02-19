@@ -65,8 +65,7 @@ public sealed class Cliente : Entity
         string codigoCliente,
         TipoPessoa tipo,
         Cpf? cpf,
-        Cnpj? cnpj,
-        bool isActive)
+        Cnpj? cnpj)
     {
         Nome = nome;
         Email = email;
@@ -75,7 +74,6 @@ public sealed class Cliente : Entity
         Tipo = tipo;
         Cpf = cpf;
         Cnpj = cnpj;
-        IsActive = isActive;
     }
 
     public void SetStatus(bool isActive)

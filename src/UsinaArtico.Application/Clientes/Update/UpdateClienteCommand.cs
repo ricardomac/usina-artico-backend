@@ -11,7 +11,6 @@ public sealed record UpdateClienteCommand(
     string Telefone,
     string Documento,
     string CodigoCliente,
-    bool IsActive,
     List<UpdateEnderecoCommand> Enderecos) : ICommand;
 
 public sealed record UpdateEnderecoCommand(
