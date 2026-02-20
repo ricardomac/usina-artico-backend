@@ -16,6 +16,8 @@ using UsinaArtico.Infrastructure.Authorization;
 using UsinaArtico.Infrastructure.Database;
 using UsinaArtico.Infrastructure.DomainEvents;
 using UsinaArtico.Infrastructure.Identity;
+using UsinaArtico.Application.Abstractions.Services;
+using UsinaArtico.Infrastructure.Services;
 using UsinaArtico.Infrastructure.Time;
 using UsinaArtico.SharedKernel;
 
@@ -38,6 +40,8 @@ public static class DependencyInjection
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         services.AddTransient<IDomainEventsDispatcher, DomainEventsDispatcher>();
+
+        services.AddScoped<IEmailService, EmailService>();
 
         return services;
     }
@@ -85,7 +89,7 @@ public static class DependencyInjection
         {
             options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
             options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
-            options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
         })
        
         .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
@@ -100,8 +104,15 @@ public static class DependencyInjection
             };
         });
 
-        services.AddIdentityApiEndpoints<User>()
-            .AddRoles<IdentityRole<Guid>>()
+        services.AddIdentity<User, IdentityRole<Guid>>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.User.RequireUniqueEmail = true;
+            })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddErrorDescriber<PortugueseIdentityErrorDescriber>()
             .AddDefaultTokenProviders();

@@ -17,7 +17,8 @@ internal sealed class CreateUserCommandHandler(
             UserName = command.Email,
             Email = command.Email,
             FirstName = command.FirstName,
-            LastName = command.LastName
+            LastName = command.LastName,
+            EmailConfirmed = true
         };
 
         IdentityResult result = await userManager.CreateAsync(user, command.Password);
