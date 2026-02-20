@@ -12,6 +12,7 @@ public sealed class Logout : IEndpoint
             await signInManager.SignOutAsync();
             return Results.Ok();
         }) 
-        .WithTags(Tags.Auth);
+        .WithTags(Tags.Auth)
+        .WithSummary("Realiza o logout do usuário");
     }
 }
